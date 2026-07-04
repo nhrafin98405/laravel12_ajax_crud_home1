@@ -2,9 +2,10 @@
 <html lang="en">
 
 <head>
-    <title>Bootstrap 5 Website Example</title>
+    <title>Ajax crud</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <style>
@@ -91,6 +92,20 @@
     </div>
     @include('modal')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+    </script>
+
+    <script>
+        $(document).ready(function(){
+            // alert();
+            
+        })
+    </script>
 
 
     <div class="mt-5 p-4 bg-dark text-white text-center">
