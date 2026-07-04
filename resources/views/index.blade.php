@@ -49,39 +49,36 @@
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h2>Student Table</h2>
 
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#studentModal">
                             Open modal
                         </button>
+                        
 
                     </div>
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
+                                <th scope="col">ID</th>
+                                <th scope="col">NAME</th>
+                                <th scope="col">EMAIL</th>
+                                <th scope="col">PHONE</th>
+                                <th scope="col">ROOL</th>
+                                <th scope="col">ADDRESS</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($student as $stdnt)
+                                
+                            
                             <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
+                                <th>{{$stdnt->id}}</th>
+                                <td>{{$stdnt->name}}</td>
+                                <td>{{$stdnt->email}}</td>
+                                <td>{{$stdnt->phone}}</td>
+                                <td>{{$stdnt->rool}}</td>
+                                <td>{{$stdnt->address}}</td>
                             </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>John</td>
-                                <td>Doe</td>
-                                <td>@social</td>
-                            </tr>
+                           @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -90,20 +87,46 @@
             </div>
         </div>
     </div>
-    @include('modal')
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    @include('modal')
     <script>
         $.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
     </script>
 
     <script>
-        $(document).ready(function(){
-            // alert();
-            
+        $(document).ready(function() {
+            $(document).on('submit','#addStudent',function(e){
+
+                e.preventDefault();
+                let formData = new FormData(this);
+
+                $('.error-text').text('');
+
+                $.ajax({
+                    url:"{{route('student.store')}}",
+                    method:'post',
+                    data:formData,
+                    contentType:false,
+                    processData:false,
+                    success:function(response){
+
+                    },
+                    error:function(err){
+                        let errors = err.responseJSON.errors;
+                        $.each(errors,function(key,value){
+                            $('.'+key+'_error').text(value[0]);
+                        });
+                    }
+                })
+
+
+            });
+
         })
     </script>
 
